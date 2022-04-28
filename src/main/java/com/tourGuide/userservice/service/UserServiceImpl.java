@@ -1,5 +1,7 @@
 package com.tourGuide.userservice.service;
 
+import com.tourGuide.userservice.exception.ResourceNotFoundException;
+import com.tourGuide.userservice.model.NewUserDto;
 import com.tourGuide.userservice.model.User;
 import com.tourGuide.userservice.repository.UserRepository;
 import org.slf4j.Logger;
@@ -7,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,18 +22,20 @@ public class UserServiceImpl implements UserService {
     /**
      * Create a new User.
      *
-     * @param user the user to save
+     * @param newUser the newUser to save
+     * @return the user created, can throw DataAlreadyExistException
      */
     @Override
-    public void createUser(User user) {
+    public User createUser(NewUserDto newUser) {
 
-        if (user.getUserName().isBlank()) {
-            logger.warn("username cannot be blank/empty");
-            throw new IllegalArgumentException("username cannot be blank/empty");
-        }
+        UUID userId = UUID.randomUUID();
+        User user = new User(userId, newUser.userName() , newUser.phoneNumber(),newUser.emailAddress());
+
         userRepository.addUser(user);
-        logger.info("user : " + user.getUserName() + " created.");
 
+        logger.info("newUser : " + newUser.userName() + " created.");
+
+        return user;
     }
 
     /**
@@ -42,23 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUserName(String username) {
 
-        if (username.isBlank()) {
-            logger.warn("username can't be null or blank. username : " + username);
-            throw new IllegalArgumentException("username can't be null or blank");
-        }
-
         return userRepository.getUserByUsername(username);
-    }
-
-    /**
-     * Get the user with the given id.
-     *
-     * @param userId the id
-     * @return the user
-     */
-    @Override
-    public User getUserByUserId(UUID userId) {
-        return null;
     }
 
     /**
@@ -69,7 +58,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
 
-        return userRepository.getAllUsers();
+        List<User> users = userRepository.getAllUsers();
+
+        if (users.isEmpty()){
+            logger.warn("error, empty list : can't retrieve users data.");
+        throw new ResourceNotFoundException("error, repository returned an empty List.");
+        }
+
+    return users;
     }
 
 

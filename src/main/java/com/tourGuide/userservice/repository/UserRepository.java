@@ -1,6 +1,8 @@
 package com.tourGuide.userservice.repository;
 
 
+import com.tourGuide.userservice.exception.DataAlreadyExistException;
+import com.tourGuide.userservice.exception.ResourceNotFoundException;
 import com.tourGuide.userservice.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +45,7 @@ public class UserRepository {
 
         if (!internalUserMap.containsKey(username)) {
             logger.warn("username : " + username + " doesn't exist.");
-            throw new NoSuchElementException("username : " + username + " doesn't exist.");
+            throw new ResourceNotFoundException("username : " + username + " doesn't exist.");
         }
 
         return internalUserMap.get(username);
@@ -55,7 +57,7 @@ public class UserRepository {
             internalUserMap.put(user.getUserName(), user);
         } else {
             logger.warn("User " + user.getUserName() + " already exist.");
-            throw new KeyAlreadyExistsException("Data already exist.");
+            throw new DataAlreadyExistException("Data already exist.");
         }
     }
 
