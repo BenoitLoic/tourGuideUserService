@@ -14,6 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository for UserService. contains method to read and save User. Contains method to generate
+ * User for internal testing.
+ */
 @Repository
 public class UserRepository {
 
@@ -25,6 +29,12 @@ public class UserRepository {
     this.initializeInternalUsers();
   }
 
+  /**
+   * Get the User identified by its username.
+   *
+   * @param username the username
+   * @return the user saved, throw ResourceNotFoundException if username doesn't exist.
+   */
   public User getUserByUsername(String username) {
 
     if (!internalUserMap.containsKey(username)) {
@@ -35,6 +45,11 @@ public class UserRepository {
     return internalUserMap.get(username);
   }
 
+  /**
+   * Save the given user. Can throw DataAlreadyExistException if the user already exist.
+   *
+   * @param user the user
+   */
   public void addUser(User user) {
     if (!internalUserMap.containsKey(user.getUserName())) {
       internalUserMap.put(user.getUserName(), user);
@@ -44,6 +59,11 @@ public class UserRepository {
     }
   }
 
+  /**
+   * Get all user saved.
+   *
+   * @return a list of user
+   */
   public List<User> getAllUsers() {
 
     List<User> userList = new LinkedList<>();
@@ -55,8 +75,9 @@ public class UserRepository {
     return userList;
   }
   /**********************************************************************************
-   * Methods Below will generate data for Internal Testing
+   * Methods Below will generate data for Internal Testing.
    **********************************************************************************/
+
   protected void initializeInternalUsers() {
 
     IntStream.range(0, InternalTestHelper.getInternalUserNumber())

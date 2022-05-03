@@ -3,6 +3,7 @@ package com.tourGuide.userservice.model;
 import java.util.Objects;
 import java.util.UUID;
 
+/** Model for user entity. */
 public class User {
 
   private UUID userId;
@@ -12,6 +13,14 @@ public class User {
 
   public User() {}
 
+  /**
+   * Constructor with all fields.
+   *
+   * @param userId the user id
+   * @param userName the username
+   * @param phoneNumber the phone number
+   * @param emailAddress the email address
+   */
   public User(UUID userId, String userName, String phoneNumber, String emailAddress) {
     this.userId = userId;
     this.userName = userName;
@@ -53,8 +62,12 @@ public class User {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     User user = (User) o;
     return userId.equals(user.userId)
         && Objects.equals(userName, user.userName)

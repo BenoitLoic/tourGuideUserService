@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation for UserService.
+ * Contains method used by User Rest Controller.
+ */
 @Service
 public class UserServiceImpl implements UserService {
   private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);

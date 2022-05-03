@@ -4,6 +4,7 @@ import com.tourGuide.userservice.model.NewUserDto;
 import com.tourGuide.userservice.model.User;
 import java.util.List;
 
+/** Interface for UserService. Contains method used by User Rest Controller. */
 public interface UserService {
 
   /**
