@@ -7,9 +7,8 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 @Configuration
 public class UserConfiguration {
 
-    @Bean
-    public MethodValidationPostProcessor methodValidationPostProcessor(){
-        return new MethodValidationPostProcessor();
-    }
-
+  @Bean
+  public MethodValidationPostProcessor methodValidationPostProcessor() {
+    return new MethodValidationPostProcessor();
+  }
 }
