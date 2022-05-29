@@ -6,10 +6,19 @@ build_job:
   stage: build
   script:
     - ./gradlew bootJar
-  image: openjdk:11-alpine
+  image: gradle:7-jdk17-alpine
+  artifacts:
+    name: Build_artifact
+    paths:
+      - build/libs/*.jar
+      - Dockerfile
 
-test_job:
+unitTest_job:
   stage: test
   script:
     - ./gradlew test
-  image: openjdk:11-alpine
+  image: gradle:7-jdk17-alpine
+  artifacts:
+    paths:
+      - build/reports/tests/test
+      - build/reports/jacoco/test/html
